@@ -20,7 +20,7 @@ def generator_int():
     return random_number
 
 
-@allure.title('Создание курьера')
+@allure.step('Создание курьера')
 def create_courier(payload):
     response_create = requests.post(f'{URL + CREATE_COURIER}', json=payload)
     return response_create

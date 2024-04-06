@@ -1,5 +1,5 @@
 import json
-
+from conftest import *
 import allure
 import pytest
 from data import *
@@ -16,7 +16,6 @@ class TestCreateCourier:
             'name': generator_str(7)
         }
         response_create = create_courier(payload)
-        self.user_id = login_courier(payload).json()['id']
         assert response_create.status_code == 201 and response_create.json()['ok'] == True
 
     @allure.title('Проверка создания курьера с пустыми полями')
@@ -82,7 +81,7 @@ class TestLoginCourier:
         assert (response_log.status_code == 400 and
                 response_log.json()['message'] == TextMessage.ERROR_BAD_REQUEST_LOG_COURIER)
 
-    @allure.title('Логин курьера без поля password') # МОЖЕТ ВООБЩЕ УБРАТЬ?
+    @allure.title('Логин курьера без поля password')
     def test_login_courier_without_password(self, register_new_courier_and_return_login_password):
         payload = {
             'login': register_new_courier_and_return_login_password[0]
@@ -131,9 +130,7 @@ class TestDeleteCourier:
 
     @allure.title('Удаление курьера с несуществующим id')
     def test_delete_courier_non_existent_(self):
-        response_log = create_and_log_courier().json()['id']
-        delete_courier(response_log)
-        response_del_repeat = delete_courier(response_log)
+        response_del_repeat = delete_courier(generator_int())
         assert (response_del_repeat.status_code == 404 and
                 response_del_repeat.json()['message'] == TextMessage.ERROR_NOT_FOUND_DELETE_COURIER)
 

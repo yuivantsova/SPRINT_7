@@ -15,7 +15,7 @@ class TestOrder:
         response_create = create_order(color)
         assert response_create.status_code == 201 and 'track' in response_create.text
 
-    @allure.title('Проверка на получения списка заказов') # нужно ли тут проверить заказ по курьерам
+    @allure.title('Проверка на получения списка заказов')
     def test_get_list_order(self):
         response_get = get_list_order()
         assert response_get.json()['orders']
